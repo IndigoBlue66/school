@@ -1,6 +1,5 @@
 import datetime
 
-
 import school
 
 
@@ -55,4 +54,3 @@ def test_write_read_json(tmp_path):
     c2 = school.School.model_validate_json(file_path.read_text())
     assert isinstance(c2, school.School)
     assert c2 == c
-
