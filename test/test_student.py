@@ -1,14 +1,29 @@
+import datetime
+
 import school
 
 
-def test_obj():
-    a = school.Student("Albert", "Zweistein", "1879-03-14", "Male", True)
-    b = school.Student("Marie", "Curie", "1867-11-07", "Female", True)
-    assert a.first_name == "Albert"
-    assert a.surname == "Zweistein"
-    assert a.birthday == "1879-03-14"
-    assert a.gender == "Male"
-    assert a.active is True
+def test_student():
+    a = school.Student(
+        first_name="Albert",
+        surname="Zweistein",
+        birthday=datetime.date(1879, 3, 14),
+        gender="Male",
+        active=True,
+    )
+    b = school.Student(
+        first_name="Marie",
+        surname="Curie",
+        birthday=datetime.date(1867, 11, 7),
+        gender="Female",
+        active=True,
+    )
     assert isinstance(a, school.Student)
     assert isinstance(b, school.Student)
-    assert str(a) == "Albert Zweistein 1879-03-14 Male True"
+    assert (
+        repr(a)
+        == "Student(first_name='Albert', surname='Zweistein', birthday=datetime.date(1879, 3, 14), gender='Male', active=True)"
+    )
+    assert (
+        repr(b) == "Student(first_name='Marie', surname='Curie', birthday=datetime.date(1867, 11, 7), gender='Female', active=True)"
+    )

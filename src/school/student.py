@@ -1,10 +1,11 @@
-class Student:
-    def __init__(self, first_name, surname, birthday, gender, active):
-        self.first_name = first_name
-        self.surname = surname
-        self.birthday = birthday
-        self.gender = gender
-        self.active = active
+import datetime
 
-    def __str__(self):
-        return f"{self.first_name} {self.surname} {self.birthday} {self.gender} {self.active}"
+import pydantic
+
+
+class Student(pydantic.BaseModel):
+    first_name: str
+    surname: str
+    birthday: datetime.date
+    gender: str
+    active: bool
