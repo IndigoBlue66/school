@@ -1,0 +1,26 @@
+{
+  "name": "Test School",
+  "students": [
+    {
+      "first_name": "Albert",
+      "surname": "Zweistein",
+      "birthday": "1879-03-14",
+      "gender": "Male",
+      "active": true
+    },
+    {
+      "first_name": "Marie",
+      "surname": "Curie",
+      "birthday": "1867-11-07",
+      "gender": "Female",
+      "active": true
+    },
+    {
+      "first_name": "Marie",
+      "surname": "Curie",
+      "birthday": "1867-11-07",
+      "gender": "Female",
+      "active": true
+    }
+  ]
+}

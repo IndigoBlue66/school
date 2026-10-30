@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.15"
 dependencies = [
+    "click>=8.5.0",
     "outputfile>=1.4.0",
     "pydantic>=2.14.1",
     "pydantic-settings>=2.16.2",
@@ -15,7 +16,7 @@ dependencies = [
 ]
 
 [project.scripts]
-school = "school:main"
+school = "school.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.13.5,<0.14.0"]
