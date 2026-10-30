@@ -1,6 +1,8 @@
 import datetime
+import re
 
-import yaml
+import pytest
+from test2ref import assert_refdata
 
 import school
 
@@ -30,7 +32,7 @@ def test_school():
     )
 
 
-def test_write_read_json(tmp_path):
+def test_to_file_json(tmp_path):
     a = school.Student(
         first_name="Albert",
         surname="Zweistein",
@@ -48,17 +50,14 @@ def test_write_read_json(tmp_path):
     c = school.School(name="Test School", students=[a, b])
 
     # write to file
-    file_path = tmp_path / "out" / "school.json"
-    file_path.parent.mkdir(parents=True, exist_ok=True)
-    file_path.write_text(c.model_dump_json())
+    file_path = tmp_path / "out" / "file.json"
+    c.to_file(file_path)
 
     # read from file
-    c2 = school.School.model_validate_json(file_path.read_text())
-    assert isinstance(c2, school.School)
-    assert c2 == c
+    assert_refdata(test_to_file_json, tmp_path)
 
 
-def test_write_read_yaml(tmp_path):
+def test_to_file_yaml(tmp_path):
     a = school.Student(
         first_name="Albert",
         surname="Zweistein",
@@ -76,11 +75,102 @@ def test_write_read_yaml(tmp_path):
     c = school.School(name="Test School", students=[a, b])
 
     # write to file
-    file_path = tmp_path / "out" / "school.yaml"
-    file_path.parent.mkdir(parents=True, exist_ok=True)
-    file_path.write_text(yaml.dump(c.model_dump()))
+    file_path = tmp_path / "out" / "file.yaml"
+    c.to_file(file_path)
 
     # read from file
-    c2 = school.School.model_validate(yaml.safe_load(file_path.read_text()))
-    assert isinstance(c2, school.School)
-    assert c2 == c
+    assert_refdata(test_to_file_yaml, tmp_path)
+
+
+def test_to_file_wrong_format(tmp_path):
+    a = school.Student(
+        first_name="Albert",
+        surname="Zweistein",
+        birthday=datetime.date(1879, 3, 14),
+        gender="Male",
+        active=True,
+    )
+    b = school.Student(
+        first_name="Marie",
+        surname="Curie",
+        birthday=datetime.date(1867, 11, 7),
+        gender="Female",
+        active=True,
+    )
+    c = school.School(name="Test School", students=[a, b])
+
+    file_path = tmp_path / "out" / "sub" / "file.wrong_format"
+
+    with pytest.raises(ValueError):
+        c.to_file(file_path)
+
+
+def test_from_file_json(tmp_path):
+    a = school.Student(
+        first_name="Albert",
+        surname="Zweistein",
+        birthday=datetime.date(1879, 3, 14),
+        gender="Male",
+        active=True,
+    )
+    b = school.Student(
+        first_name="Marie",
+        surname="Curie",
+        birthday=datetime.date(1867, 11, 7),
+        gender="Female",
+        active=True,
+    )
+    c = school.School(name="Test School", students=[a, b])
+
+    file_path = tmp_path / "out" / "sub" / "file.json"
+
+    c.to_file(file_path)
+
+    d = school.School.from_file(file_path)
+
+    assert d == c
+
+
+def test_from_file_yaml(tmp_path):
+    a = school.Student(
+        first_name="Albert",
+        surname="Zweistein",
+        birthday=datetime.date(1879, 3, 14),
+        gender="Male",
+        active=True,
+    )
+    b = school.Student(
+        first_name="Marie",
+        surname="Curie",
+        birthday=datetime.date(1867, 11, 7),
+        gender="Female",
+        active=True,
+    )
+    c = school.School(name="Test School", students=[a, b])
+
+    file_path = tmp_path / "out" / "sub" / "file.yaml"
+
+    c.to_file(file_path)
+
+    d = school.School.from_file(file_path)
+
+    assert d == c
+
+
+def test_from_file_no_file(tmp_path):
+    file_path = tmp_path / "out" / "does_not_exist.fvvfobf"
+
+    with pytest.raises(FileNotFoundError):
+        d = school.School.from_file(file_path)
+
+
+def test_from_file_wrong_format(tmp_path):
+    file_path = tmp_path / "out" / "sub" / "file.wrong_format"
+
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with file_path.open("w") as f:
+        f.write("content")
+
+    with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
+        d = school.School.from_file(file_path)

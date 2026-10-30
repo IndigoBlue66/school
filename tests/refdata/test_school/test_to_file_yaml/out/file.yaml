@@ -1,0 +1,12 @@
+name: Test School
+students:
+- active: true
+  birthday: 1879-03-14
+  first_name: Albert
+  gender: Male
+  surname: Zweistein
+- active: true
+  birthday: 1867-11-07
+  first_name: Marie
+  gender: Female
+  surname: Curie
