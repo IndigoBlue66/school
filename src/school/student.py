@@ -16,28 +16,39 @@ class Student(pydantic.BaseModel):
 
     def to_file(self, file_path: Path) -> None:
 
-        if file_path.suffix not in {".json", ".yaml", ".yml"}:
-            raise ValueError('File must either be of Type ".json" or ".yaml/.yml"')
+        suffix = file_path.suffix
+
+        match suffix.lower():
+            case ".json":
+                content = self.model_dump_json()
+
+            case ".yaml" | ".yml":
+                content = yaml.dump(self.model_dump())
+
+            case _:
+                raise ValueError(f"Unsupported File Format {suffix!r}")
 
         file_path.parent.mkdir(parents=True, exist_ok=True)
         with outputfile.open_(file_path, "w") as f:
-            if file_path.suffix == ".json":
-                f.write(self.model_dump_json())
-
-            else:
-                f.write(yaml.dump(self.model_dump()))
+            f.write(content)
 
     @classmethod
     def from_file(cls, file_path: Path) -> "Student":
-
-        if file_path.suffix not in {".json", ".yaml", ".yml"}:
-            raise ValueError('File must either be of Type ".json" or ".yaml/.yml"')
 
         if not file_path.exists():
             raise FileNotFoundError(f"At Path {file_path} no file was found")
 
         with file_path.open("r") as f:
-            if file_path.suffix == ".json":
-                return cls.model_validate_json(f.read())
+            content = f.read()
 
-            return cls.model_validate(yaml.safe_load(f.read()))
+        suffix = file_path.suffix
+
+        match suffix.lower():
+            case ".json":
+                return cls.model_validate_json(content)
+
+            case ".yaml" | ".yml":
+                return cls.model_validate(yaml.safe_load(content))
+
+            case _:
+                raise ValueError(f"Unsupported File Format {suffix!r}")

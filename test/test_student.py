@@ -1,4 +1,5 @@
 import datetime
+import re
 
 import pytest
 import yaml
@@ -53,7 +54,7 @@ def test_to_file_yaml(tmp_path):
         active=True,
     )
 
-    file_path = tmp_path / "out" / "sub" / "file.yaml"
+    file_path = tmp_path / "out" / "sub" / "file.yml"
     a.to_file(file_path)
 
     b = school.Student.model_validate(yaml.safe_load(file_path.read_text()))
@@ -70,8 +71,8 @@ def test_to_file_invalid(tmp_path):
         active=True,
     )
 
-    file_path = tmp_path / "out" / "sub" / "file.kshrslkfösgösfgn"
-    with pytest.raises(ValueError):
+    file_path = tmp_path / "out" / "sub" / "file.wrong_format"
+    with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
         a.to_file(file_path)
 
 
@@ -90,5 +91,41 @@ def test_from_file_json(tmp_path):
 
     b = school.Student.from_file(file_path)
 
-    assert isinstance(b, school.Student)
     assert b == a
+
+
+def test_from_file_yaml(tmp_path):
+    a = school.Student(
+        first_name="Albert",
+        surname="Zweistein",
+        birthday=datetime.date(1879, 3, 14),
+        gender="Male",
+        active=True,
+    )
+
+    file_path = tmp_path / "out" / "sub" / "file.yaml"
+
+    a.to_file(file_path)
+
+    b = school.Student.from_file(file_path)
+
+    assert b == a
+
+
+def test_from_file_no_file(tmp_path):
+    file_path = tmp_path / "out" / "does_not_exist.fvvfobf"
+
+    with pytest.raises(FileNotFoundError):
+        b = school.Student.from_file(file_path)
+
+
+def test_from_file_wrong_format(tmp_path):
+    file_path = tmp_path / "out" / "sub" / "file.wrong_format"
+
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with file_path.open("w") as f:
+        f.write("uovbpobwüornbeürnbweowerbpiebrpueruer0hwerjiebru9werfeihrüvwiwurhfrh")
+
+    with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
+        b = school.Student.from_file(file_path)

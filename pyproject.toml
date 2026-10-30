@@ -112,4 +112,6 @@ select = [
     "D103",
     # Assert needed for testing
     "S101",
+    # Unused Variable needed for testing
+    "F841"
 ]
