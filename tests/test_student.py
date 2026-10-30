@@ -8,34 +8,16 @@ import school
 
 
 def test_student():
-    a = school.Student(
-        first_name="Albert",
-        surname="Zweistein",
-        birthday=datetime.date(1879, 3, 14),
-        gender="Male",
-        active=True,
-    )
-    b = school.Student(
-        first_name="Marie",
-        surname="Curie",
-        birthday=datetime.date(1867, 11, 7),
-        gender="Female",
-        active=True,
-    )
+    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0)
+    b = school.Student(first_name="Marie", surname="Curie", birthday=datetime.date(1867, 11, 7), gender="Female", active=True, id=1)
     assert isinstance(a, school.Student)
     assert isinstance(b, school.Student)
-    assert repr(a) == "Student(first_name='Albert', surname='Zweistein', birthday=datetime.date(1879, 3, 14), gender='Male', active=True)"
-    assert repr(b) == "Student(first_name='Marie', surname='Curie', birthday=datetime.date(1867, 11, 7), gender='Female', active=True)"
+    assert repr(a) == "Student(id=0, first_name='Albert', surname='Zweistein', birthday=datetime.date(1879, 3, 14), gender='Male', active=True)"
+    assert repr(b) == "Student(id=1, first_name='Marie', surname='Curie', birthday=datetime.date(1867, 11, 7), gender='Female', active=True)"
 
 
 def test_to_file_json(tmp_path):
-    a = school.Student(
-        first_name="Albert",
-        surname="Zweistein",
-        birthday=datetime.date(1879, 3, 14),
-        gender="Male",
-        active=True,
-    )
+    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0)
 
     file_path = tmp_path / "out" / "sub" / "file.json"
     a.to_file(file_path)
@@ -44,13 +26,7 @@ def test_to_file_json(tmp_path):
 
 
 def test_to_file_yaml(tmp_path):
-    a = school.Student(
-        first_name="Albert",
-        surname="Zweistein",
-        birthday=datetime.date(1879, 3, 14),
-        gender="Male",
-        active=True,
-    )
+    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=1)
 
     file_path = tmp_path / "out" / "sub" / "file.yml"
     a.to_file(file_path)
@@ -59,13 +35,7 @@ def test_to_file_yaml(tmp_path):
 
 
 def test_to_file_invalid(tmp_path):
-    a = school.Student(
-        first_name="Albert",
-        surname="Zweistein",
-        birthday=datetime.date(1879, 3, 14),
-        gender="Male",
-        active=True,
-    )
+    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0)
 
     file_path = tmp_path / "out" / "sub" / "file.wrong_format"
     with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
@@ -73,13 +43,7 @@ def test_to_file_invalid(tmp_path):
 
 
 def test_from_file_json(tmp_path):
-    a = school.Student(
-        first_name="Albert",
-        surname="Zweistein",
-        birthday=datetime.date(1879, 3, 14),
-        gender="Male",
-        active=True,
-    )
+    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0)
 
     file_path = tmp_path / "out" / "sub" / "file.json"
 
@@ -91,13 +55,7 @@ def test_from_file_json(tmp_path):
 
 
 def test_from_file_yaml(tmp_path):
-    a = school.Student(
-        first_name="Albert",
-        surname="Zweistein",
-        birthday=datetime.date(1879, 3, 14),
-        gender="Male",
-        active=True,
-    )
+    a = school.Student(id=0, first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True)
 
     file_path = tmp_path / "out" / "sub" / "file.yaml"
 
@@ -121,7 +79,7 @@ def test_from_file_wrong_format(tmp_path):
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
     with file_path.open("w") as f:
-        f.write("uovbpobwüornbeürnbweowerbpiebrpueruer0hwerjiebru9werfeihrüvwiwurhfrh")
+        f.write("content")
 
     with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
         b = school.Student.from_file(file_path)

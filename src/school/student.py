@@ -8,6 +8,7 @@ import yaml
 
 
 class Student(pydantic.BaseModel):
+    id: int
     first_name: str
     surname: str
     birthday: datetime.date

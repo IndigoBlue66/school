@@ -14,6 +14,7 @@ def test_school():
         birthday=datetime.date(1879, 3, 14),
         gender="Male",
         active=True,
+        id=0
     )
     b = school.Student(
         first_name="Marie",
@@ -21,13 +22,14 @@ def test_school():
         birthday=datetime.date(1867, 11, 7),
         gender="Female",
         active=True,
+        id=1
     )
 
     c = school.School(name="Test School", students=[a, b])
     assert isinstance(c, school.School)
     assert repr(c) == (
-        "School(name='Test School', students=[Student(first_name='Albert', surname='Zweistein',"
-        " birthday=datetime.date(1879, 3, 14), gender='Male', active=True), Student(first_name='Marie',"
+        "School(name='Test School', students=[Student(id=0, first_name='Albert', surname='Zweistein',"
+        " birthday=datetime.date(1879, 3, 14), gender='Male', active=True), Student(id=1, first_name='Marie',"
         " surname='Curie', birthday=datetime.date(1867, 11, 7), gender='Female', active=True)])"
     )
 
@@ -39,6 +41,7 @@ def test_to_file_json(tmp_path):
         birthday=datetime.date(1879, 3, 14),
         gender="Male",
         active=True,
+        id=0
     )
     b = school.Student(
         first_name="Marie",
@@ -46,6 +49,7 @@ def test_to_file_json(tmp_path):
         birthday=datetime.date(1867, 11, 7),
         gender="Female",
         active=True,
+        id=1
     )
     c = school.School(name="Test School", students=[a, b])
 
@@ -64,6 +68,7 @@ def test_to_file_yaml(tmp_path):
         birthday=datetime.date(1879, 3, 14),
         gender="Male",
         active=True,
+        id=0
     )
     b = school.Student(
         first_name="Marie",
@@ -71,6 +76,7 @@ def test_to_file_yaml(tmp_path):
         birthday=datetime.date(1867, 11, 7),
         gender="Female",
         active=True,
+        id=1
     )
     c = school.School(name="Test School", students=[a, b])
 
@@ -89,6 +95,7 @@ def test_to_file_wrong_format(tmp_path):
         birthday=datetime.date(1879, 3, 14),
         gender="Male",
         active=True,
+        id=0
     )
     b = school.Student(
         first_name="Marie",
@@ -96,6 +103,7 @@ def test_to_file_wrong_format(tmp_path):
         birthday=datetime.date(1867, 11, 7),
         gender="Female",
         active=True,
+        id=1
     )
     c = school.School(name="Test School", students=[a, b])
 
@@ -112,6 +120,7 @@ def test_from_file_json(tmp_path):
         birthday=datetime.date(1879, 3, 14),
         gender="Male",
         active=True,
+        id=0
     )
     b = school.Student(
         first_name="Marie",
@@ -119,6 +128,7 @@ def test_from_file_json(tmp_path):
         birthday=datetime.date(1867, 11, 7),
         gender="Female",
         active=True,
+        id=1
     )
     c = school.School(name="Test School", students=[a, b])
 
@@ -138,6 +148,7 @@ def test_from_file_yaml(tmp_path):
         birthday=datetime.date(1879, 3, 14),
         gender="Male",
         active=True,
+        id=0
     )
     b = school.Student(
         first_name="Marie",
@@ -145,6 +156,7 @@ def test_from_file_yaml(tmp_path):
         birthday=datetime.date(1867, 11, 7),
         gender="Female",
         active=True,
+        id=1
     )
     c = school.School(name="Test School", students=[a, b])
 

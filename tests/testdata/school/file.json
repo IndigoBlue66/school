@@ -6,21 +6,24 @@
       "surname": "Zweistein",
       "birthday": "1879-03-14",
       "gender": "Male",
-      "active": true
+      "active": true,
+      "id": 0
     },
     {
       "first_name": "Marie",
       "surname": "Curie",
       "birthday": "1867-11-07",
       "gender": "Female",
-      "active": true
+      "active": true,
+      "id":1
     },
     {
       "first_name": "Marie",
       "surname": "Curie",
       "birthday": "1867-11-07",
       "gender": "Female",
-      "active": true
+      "active": true,
+      "id":2
     }
   ]
 }
