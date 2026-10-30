@@ -2,7 +2,7 @@ import datetime
 import re
 
 import pytest
-import yaml
+from test2ref import assert_refdata
 
 import school
 
@@ -40,9 +40,7 @@ def test_to_file_json(tmp_path):
     file_path = tmp_path / "out" / "sub" / "file.json"
     a.to_file(file_path)
 
-    b = school.Student.model_validate_json(file_path.read_text())
-    assert isinstance(b, school.Student)
-    assert b == a
+    assert_refdata(test_to_file_json, tmp_path)
 
 
 def test_to_file_yaml(tmp_path):
@@ -57,9 +55,7 @@ def test_to_file_yaml(tmp_path):
     file_path = tmp_path / "out" / "sub" / "file.yml"
     a.to_file(file_path)
 
-    b = school.Student.model_validate(yaml.safe_load(file_path.read_text()))
-    assert isinstance(b, school.Student)
-    assert b == a
+    assert_refdata(test_to_file_yaml, tmp_path)
 
 
 def test_to_file_invalid(tmp_path):

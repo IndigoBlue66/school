@@ -12,6 +12,15 @@ wheels = [
 ]
 
 [[package]]
+name = "binaryornot"
+version = "0.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/86/72/4755b85101f37707c71526a301c1203e413c715a0016ecb592de3d2dcfff/binaryornot-0.6.0.tar.gz", hash = "sha256:cc8d57cfa71d74ff8c28a7726734d53a851d02fad9e3a5581fb807f989f702f0", size = 478718, upload-time = "2026-03-08T16:26:28.804Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cd/0c/31cfaa6b56fe23488ecb993bc9fc526c0d84d89607decdf2a10776426c2e/binaryornot-0.6.0-py3-none-any.whl", hash = "sha256:900adfd5e1b821255ba7e63139b0396b14c88b9286e74e03b6f51e0200331337", size = 14185, upload-time = "2026-03-08T16:26:27.466Z" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -207,6 +216,7 @@ dependencies = [
 dev = [
     { name = "pytest" },
     { name = "ruff" },
+    { name = "test2ref" },
 ]
 
 [package.metadata]
@@ -221,6 +231,19 @@ requires-dist = [
 dev = [
     { name = "pytest", specifier = ">=9.2.0" },
     { name = "ruff", specifier = ">=0.17.3" },
+    { name = "test2ref", specifier = ">=1.3.0" },
+]
+
+[[package]]
+name = "test2ref"
+version = "1.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "binaryornot" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/23/f9/f7bc9aac1fd9cc4c71160d8112a973314bb004a68e4cd6890db266d85340/test2ref-1.3.0.tar.gz", hash = "sha256:c00bb026734164eb02945289e6388215497dad8a648c138ecd4b19d0ef53e6a5", size = 11813, upload-time = "2026-10-08T07:46:51.352Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/71/63/055951696c4e7d96444f14ad4568f86bbfbe27da62e853ec55e083a5dd39/test2ref-1.3.0-py3-none-any.whl", hash = "sha256:9df73282d1dedaaab182d18c1c71f38cb2c5c801c8c04cdf8dc16fdbc339cccb", size = 11633, upload-time = "2026-10-08T07:46:50.509Z" },
 ]
 
 [[package]]

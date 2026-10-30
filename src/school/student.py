@@ -20,7 +20,7 @@ class Student(pydantic.BaseModel):
 
         match suffix.lower():
             case ".json":
-                content = self.model_dump_json()
+                content = self.model_dump_json(indent=2)
 
             case ".yaml" | ".yml":
                 content = yaml.dump(self.model_dump())
