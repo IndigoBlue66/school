@@ -3,7 +3,9 @@ from pathlib import Path
 
 import click
 import outputfile
+from makolator import Makolator
 
+from .const import TEMPLATE_PATH
 from .school import School
 
 
@@ -15,26 +17,26 @@ def main() -> None:
 @main.command()
 @click.argument("file", type=Path)
 def check(file) -> None:
-    o = School.from_file(file)
-    click.echo(f"School Name: {o.name}")
-    click.echo(f"Students: {len(o.students)}")
+    school = School.from_file(file)
+    click.echo(f"School Name: {school.name}")
+    click.echo(f"Students: {len(school.students)}")
 
 
 @main.command()
 @click.argument("file", type=Path)
 @click.argument("outputdir", type=Path, default=Path("out"))
 def report(file, outputdir) -> None:
-    o = School.from_file(file)
+    school = School.from_file(file)
+    mkltr = Makolator()
+    mkltr.config.template_paths = [TEMPLATE_PATH]
+    mkltr.config.verbose = True
 
-    with open(outputdir / "index.html") as dest:
-        dest.write(f"School Name: {o.name}\n")
-        dest.write(f"Students: {len(o.students)}\n")
+    data = {"school": school}
+    mkltr.gen([Path(TEMPLATE_PATH) / "index.html.mako"], outputdir / "index.html", context=data)
 
-    for student in o.students:
-        with open(outputdir / "students" / str(student.first_name + "_" + student.surname + ".html")) as dest:
-            dest.write(f"Student Name: {student.first_name}\n")
-            dest.write(f"Student Surname: {student.surname}\n")
-            dest.write(f"Student Birthday: {student.birthday}\n")
+    for student in school.students:
+        data = {"student": student}
+        mkltr.gen([Path(TEMPLATE_PATH) / "student.html.mako"], dest=outputdir / "students" / f"student_{student.id}.html", context=data)
 
 
 @contextmanager
