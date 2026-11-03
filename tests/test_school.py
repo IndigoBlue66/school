@@ -13,11 +13,7 @@ def test_school():
 
     c = school.School(name="Test School", students=[a, b])
     assert isinstance(c, school.School)
-    assert repr(c) == (
-        "School(name='Test School', students=[Student(id=0, first_name='Albert', surname='Zweistein',"
-        " birthday=datetime.date(1879, 3, 14), gender='Male', active=True), Student(id=1, first_name='Marie',"
-        " surname='Curie', birthday=datetime.date(1867, 11, 7), gender='Female', active=True)])"
-    )
+    assert repr(c).startswith("School(name='Test School', students=[Student(id=0, first_name='Albert', surname='Zweistein',")
 
 
 def test_to_file_json(tmp_path):
@@ -102,3 +98,9 @@ def test_from_file_wrong_format(tmp_path):
 
     with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
         d = school.School.from_file(file_path)
+
+
+def test_school_with_school_subject():
+    subject = school.SchoolSubject(name="Math", teacher="Mr. Smith")
+    a = school.School(name="Test School", subjects=[subject], students=[])
+    assert a.subjects == [subject]

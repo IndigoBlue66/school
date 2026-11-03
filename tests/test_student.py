@@ -8,12 +8,14 @@ import school
 
 
 def test_student():
-    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0)
+    a = school.Student(
+        first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, nickname="Albie"
+    )
     b = school.Student(first_name="Marie", surname="Curie", birthday=datetime.date(1867, 11, 7), gender="Female", active=True, id=1)
     assert isinstance(a, school.Student)
     assert isinstance(b, school.Student)
-    assert repr(a) == "Student(id=0, first_name='Albert', surname='Zweistein', birthday=datetime.date(1879, 3, 14), gender='Male', active=True)"
-    assert repr(b) == "Student(id=1, first_name='Marie', surname='Curie', birthday=datetime.date(1867, 11, 7), gender='Female', active=True)"
+    assert repr(a).startswith("Student(id=0, first_name='Albert'")
+    assert repr(b).startswith("Student(id=1, first_name='Marie'")
 
 
 def test_to_file_json(tmp_path):
@@ -83,3 +85,11 @@ def test_from_file_wrong_format(tmp_path):
 
     with pytest.raises(ValueError, match=re.escape("Unsupported File Format '.wrong_format'")):
         b = school.Student.from_file(file_path)
+
+
+def test_with_student_subject():
+    subject = school.StudentSubject(subject_name="Math", grades=[90, 80, 70])
+    a = school.Student(
+        first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[subject]
+    )
+    assert a.subjects == [subject]

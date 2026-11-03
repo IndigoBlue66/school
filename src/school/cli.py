@@ -1,8 +1,6 @@
-from contextlib import contextmanager
 from pathlib import Path
 
 import click
-import outputfile
 from makolator import Makolator
 
 from .const import TEMPLATE_PATH
@@ -37,11 +35,3 @@ def report(file, outputdir) -> None:
     for student in school.students:
         data = {"student": student}
         mkltr.gen([Path(TEMPLATE_PATH) / "student.html.mako"], dest=outputdir / "students" / f"student_{student.id}.html", context=data)
-
-
-@contextmanager
-def open(path: Path):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with outputfile.open_(path) as file:
-        yield file
-    click.echo(f"{path}... {file.state.name}")
