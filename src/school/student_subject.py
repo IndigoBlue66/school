@@ -1,9 +1,9 @@
 from .object import Object
-
+import pydantic
 
 class StudentSubject(Object):
     name: str
-    grades: list[int]
+    grades: list[int] = pydantic.Field(default_factory=list)
 
     @property
     def average_grade(self) -> float:
