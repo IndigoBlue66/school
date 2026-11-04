@@ -6,7 +6,7 @@ import school
 
 def test_check(testdata_path):
     runner = CliRunner()
-    school_file = testdata_path / "school" / "file.json"
+    school_file = testdata_path / "school" / "school.json"
     result = runner.invoke(school.cli.main, ["check", str(school_file)])
     assert result.exit_code == 0
     assert (
@@ -20,7 +20,7 @@ Students: 3
 
 def test_report(testdata_path, tmp_path):
     runner = CliRunner()
-    school_file = testdata_path / "school" / "file.json"
+    school_file = testdata_path / "school" / "school.json"
     result = runner.invoke(school.cli.main, ["report", str(school_file), str(tmp_path / "out")])
     assert result.exit_code == 0
     assert_refdata(test_report, tmp_path)

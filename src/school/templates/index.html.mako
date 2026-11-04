@@ -5,9 +5,12 @@
 </%block>
 <%block name="main">\
   <h2>Students</h2>
-  <ul>
+  <table>
 % for student in school.students:
-    <li><a href="students/student_${student.id}.html">${student.first_name} ${student.surname}</a><br></li>
+    <tr>
+      <td><a href="students/student_${student.id}.html">${student.first_name} ${student.surname}</a></td>
+      <td class="tooltip"><span class="tooltip-content">${student.overall_avg}</span><span class="tooltiptext">Average over all Subjects</span></td>
+    </tr>
 % endfor
-  </ul>
+  </table>
 </%block>

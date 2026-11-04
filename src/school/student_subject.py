@@ -2,7 +2,7 @@ from .object import Object
 
 
 class StudentSubject(Object):
-    subject_name: str
+    name: str
     grades: list[int]
 
     @property
