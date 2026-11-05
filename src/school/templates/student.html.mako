@@ -10,10 +10,12 @@
 <%block name="main">\
   <h2>Overview</h2>
   <table>
+%if student.nickname:
       <tr>
       <th>Nickname:</th>
       <td>${student.nickname}</td>
-    </tr> 
+    </tr>
+%endif
     <tr>
       <th>Gender:</th>
       <td>${student.gender}</td>
@@ -31,7 +33,6 @@
       <td>${student.active}</td>
     </tr>
   </table>
-<%block>
 % if student.subjects:
   <h2> Grades </h2>
   <table>
@@ -41,13 +42,12 @@
 % for subject in student.subjects:
       <tr>
       <th>${subject.name}:</th>
-      <td>${subject.letter_grade}</td>
+      <td class="tooltip"><span class="tooltip-content">${subject.letter_grade}</span><span class="tooltiptext">Ø ${subject.average_grade}</span></td>
 % for grade in subject.grades:
       <td>${grade}</td>
 % endfor
     </tr>
 % endfor
 %endif
-</%block> 
   </table>
 </%block>

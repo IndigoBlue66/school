@@ -72,6 +72,7 @@ def add(name, teacher, file) -> None:
         student_subject = StudentSubject(name=name)
         student.subjects.append(student_subject)
 
+    click.echo(f'Successfully add subject "{name}" to school "{school.name}"')
     school.to_file(file)
 
 
@@ -140,17 +141,66 @@ def add(file, first_name, surname, active, gender, birth_date, id):
 @student.command()
 @opt_file
 @click.option("--id", type=int, prompt=True)
-def rm(file, id):
+def rm(file, id) -> None:
     school = School.from_file(file)
-    _success = False
+
+    _success = any(student.id == id for student in school.students)
+
+    if _success:
+
+        school.students = [student for student in school.students if student.id != id]
+
+        click.echo(f'Removed Student #{id} from School "{school.name}"')
+    else:
+        click.echo(f'Error: in School "{school.name}", there exists no Student #{id}')
+    school.to_file(file)
+
+@student.command()
+@opt_file
+def list(file) -> None:
+    school = School.from_file(file)
+
+    if school.students:
+        click.echo(f'School "{school.name}" has these students...\n\n')
+        for student in school.students:
+            click.echo(f"- #{student.id} | {student.first_name} {student.surname}")
+
+    else:
+        click.echo(f'Error: School  "{school.name} " does not have any students yet. ')
+    school.to_file(file)
+
+
+@main.group()
+def grade() -> None:
+    pass
+
+@grade.command()
+@opt_file
+@click.option("--id", type=int, prompt="Student-ID")
+@click.option("--subject", type=str, prompt=True)
+@click.option("--grade", type=int, prompt=True)
+def add(file,id,subject,grade):
+    school = School.from_file(file)
+
+    student_exists = False
+    subject_exists = False
 
     for student in school.students:
         if student.id == id:
-            school.students.remove(student)
-            _success=True
+            student_exists = True
 
-    if _success:
-        click.echo(f"Successfully removed Student #{id} from School \"{school.name}\"")        
+            for _subject in student.subjects:
+                if _subject.name == subject:
+
+                    subject_exists = True
+                    _subject.grades.append(grade)
+
+    if student_exists and subject_exists:
+        click.echo(f'Successfully added grade "{grade}" to student #{id} in School "{school.name}"')
     else:
-        click.echo(f"Error: Student #{id} does not exist in School \"{school.name}\"")
+        if not student_exists:
+            click.echo(f'Error: in School "{school.name}", there exists no Student #{id}')
+        if not subject_exists:
+            click.echo(f'Error: School "{school.name}" does not have subjects called "{subject}"')
+
     school.to_file(file)
