@@ -3,7 +3,6 @@ from pathlib import Path
 import outputfile
 import pydantic
 from yaml import dump, safe_load
-from pathlib import Path
 
 
 class Object(pydantic.BaseModel):

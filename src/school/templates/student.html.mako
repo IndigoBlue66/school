@@ -31,12 +31,13 @@
       <td>${student.active}</td>
     </tr>
   </table>
+<%block>
+% if student.subjects:
   <h2> Grades </h2>
   <table>
     <tr>
       <td></td><th>Letter Grade</th>
     </tr>
-<%block>
 % for subject in student.subjects:
       <tr>
       <th>${subject.name}:</th>
@@ -46,6 +47,7 @@
 % endfor
     </tr>
 % endfor
+%endif
 </%block> 
   </table>
 </%block>

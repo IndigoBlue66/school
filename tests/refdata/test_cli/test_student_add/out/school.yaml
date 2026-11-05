@@ -1,0 +1,8 @@
+name: Test
+students:
+- active: true
+  birthday: 1111-01-01
+  first_name: fname
+  gender: Female
+  id: 0
+  surname: sname

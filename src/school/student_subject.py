@@ -1,5 +1,7 @@
-from .object import Object
 import pydantic
+
+from .object import Object
+
 
 class StudentSubject(Object):
     name: str

@@ -114,6 +114,9 @@ select = [
     "ARG001",
     # used for testcases
     "D103",
+    "F811",
+    "PLR0917",
+    "PLR0913",
     # Assert needed for testing
     "S101",
     # Unused Variable needed for testing

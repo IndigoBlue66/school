@@ -1,0 +1,4 @@
+name: Test
+subjects:
+- name: name
+  teacher: teacher

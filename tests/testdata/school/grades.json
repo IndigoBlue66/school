@@ -27,12 +27,6 @@
         },
         {
           "name": "Physics"
-        },
-        {
-          "name": "Physics"
-        },
-        {
-          "name": "Subject"
         }
       ]
     },
@@ -62,12 +56,6 @@
         },
         {
           "name": "Physics"
-        },
-        {
-          "name": "Physics"
-        },
-        {
-          "name": "Subject"
         }
       ]
     },
@@ -89,15 +77,6 @@
             1,
             1
           ]
-        },
-        {
-          "name": "Physics"
-        },
-        {
-          "name": "Physics"
-        },
-        {
-          "name": "Subject"
         }
       ]
     }
@@ -106,14 +85,6 @@
     {
       "name": "Physics",
       "teacher": "Newtonn"
-    },
-    {
-      "name": "Physics",
-      "teacher": "ksjtgfkj"
-    },
-    {
-      "name": "Subject",
-      "teacher": "Teacher"
     }
   ]
 }

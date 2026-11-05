@@ -94,18 +94,25 @@ def test_with_student_subject():
     )
     assert a.subjects == [subject]
 
+
 def test_overall_avg():
     subject = school.StudentSubject(name="Math", grades=[1, 2, 4])
     subject2 = school.StudentSubject(name="Science", grades=[3, 4, 5])
-    a = school.Student( first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[subject, subject2])
+    a = school.Student(
+        first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[subject, subject2]
+    )
     assert a.overall_avg == 3.17
 
+
 def test_overall_avg_empty_subjects():
-    a = school.Student( first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[])
+    a = school.Student(first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[])
     assert a.overall_avg is None
+
 
 def test_overall_avg_subjects_with_none():
     subject = school.StudentSubject(name="Math", grades=[])
     subject2 = school.StudentSubject(name="Science", grades=[3, 4, 5])
-    a = school.Student( first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[subject, subject2])
+    a = school.Student(
+        first_name="Albert", surname="Zweistein", birthday=datetime.date(1879, 3, 14), gender="Male", active=True, id=0, subjects=[subject, subject2]
+    )
     assert a.overall_avg == 4.0
