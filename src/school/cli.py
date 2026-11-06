@@ -9,11 +9,15 @@ from .school_subject import SchoolSubject
 from .student import Student
 from .student_subject import StudentSubject
 
+######################################################
+# ROOT
+######################################################
 
 @click.group()
 def main() -> None:
     pass
 
+# Check-Command
 
 @main.command()
 @click.argument("file", type=Path)
@@ -22,6 +26,7 @@ def check(file) -> None:
     click.echo(f"School Name: {school.name}")
     click.echo(f"Students: {len(school.students)}")
 
+# Report-Command
 
 @main.command()
 @click.argument("file", type=Path)
@@ -39,6 +44,7 @@ def report(file, outputdir) -> None:
         data = {"student": student}
         mkltr.gen([Path(TEMPLATE_PATH) / "student.html.mako"], dest=outputdir / "students" / f"student_{student.id}.html", context=data)
 
+# Create-Command
 
 @main.command()
 @click.argument("file", type=Path, default=Path("out/school.yaml"))
@@ -47,14 +53,19 @@ def create(file, name):
     school = School(name=name)
     school.to_file(file)
 
+######################################################
+# SUBJECT
+######################################################
 
 @main.group()
 def subject() -> None:
     pass
 
-
 opt_file = click.option("--file", type=Path, default=Path("out/school.yaml"))
 
+
+
+# Add-Command     (Subject)
 
 @subject.command()
 @click.option("--name", type=str, prompt=True)
@@ -76,6 +87,10 @@ def add(name, teacher, file) -> None:
     school.to_file(file)
 
 
+
+
+# List-Command     (Subject)
+
 @subject.command()
 @opt_file
 def list(file) -> None:
@@ -90,6 +105,10 @@ def list(file) -> None:
         click.echo(f'Error: School  "{school.name} " does not have any subjects yet. ')
     school.to_file(file)
 
+
+
+
+# Remove-Command     (Subject)
 
 @subject.command()
 @click.option("--name", type=str, prompt=True)
@@ -112,10 +131,20 @@ def rm(file, name) -> None:
     school.to_file(file)
 
 
+
+
+######################################################
+# STUDENT
+######################################################
+
 @main.group()
 def student() -> None:
     pass
 
+
+
+
+# Add-Command    (Student)
 
 @student.command()
 @opt_file
@@ -138,6 +167,11 @@ def add(file, first_name, surname, active, gender, birth_date, id):
     school.to_file(file)
     click.echo(f'Successfully added student "{student.first_name} {student.surname}" to School "{school.name}".')
 
+
+
+
+# List-Command    (Student)
+
 @student.command()
 @opt_file
 @click.option("--id", type=int, prompt=True)
@@ -155,6 +189,11 @@ def rm(file, id) -> None:
         click.echo(f'Error: in School "{school.name}", there exists no Student #{id}')
     school.to_file(file)
 
+
+
+
+# Remove-Command    (Student)
+
 @student.command()
 @opt_file
 def list(file) -> None:
@@ -170,10 +209,20 @@ def list(file) -> None:
     school.to_file(file)
 
 
+
+
+######################################################
+# GRADE
+######################################################
+
 @main.group()
 def grade() -> None:
     pass
 
+
+
+
+# Add-Command   (Grade)
 @grade.command()
 @opt_file
 @click.option("--id", type=int, prompt="Student-ID")
