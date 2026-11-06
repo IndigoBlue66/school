@@ -2,6 +2,7 @@
   "name": "Test School",
   "students": [
     {
+      "id": 0,
       "first_name": "Albert",
       "surname": "Zweistein",
       "birthday": "1879-03-14",
@@ -9,6 +10,7 @@
       "active": true
     },
     {
+      "id": 1,
       "first_name": "Marie",
       "surname": "Curie",
       "birthday": "1867-11-07",
